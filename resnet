@@ -1,0 +1,99 @@
+zzzzzimport numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.utils import shuffle
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
+from tensorflow.keras.models import Model
+from tensorflow.keras.layers import Input, GlobalAveragePooling2D, Dense, Dropout
+from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.applications import ResNet50
+from tensorflow.keras.applications.resnet50 import preprocess_input
+from google.colab import drive
+import os
+
+# 1. Mount Google Drive và load dữ liệu
+drive.mount('/content/gdrive', force_remount=True)
+data_dir = "/content/gdrive/My Drive/saved_data"
+
+X_train = np.load(os.path.join(data_dir, "train_images.npy"))
+y_train = np.load(os.path.join(data_dir, "train_labels.npy"))
+X_test  = np.load(os.path.join(data_dir, "valid_images.npy"))
+y_test  = np.load(os.path.join(data_dir, "valid_labels.npy"))
+
+# 2. Chuyển format (N,3,224,224) → (N,224,224,3) nếu cần
+if X_train.ndim == 4 and X_train.shape[1] == 3:
+    X_train = X_train.transpose(0,2,3,1)
+    X_test  = X_test.transpose(0,2,3,1)
+
+# 3. Shuffle và chuẩn hóa
+X_train, y_train = shuffle(X_train, y_train, random_state=1080)
+X_test,  y_test  = shuffle(X_test,  y_test,  random_state=1080)
+
+X_train = preprocess_input(X_train.astype('float32'))
+X_test  = preprocess_input(X_test.astype('float32'))
+
+# 4. Xây dựng mô hình ResNet50 + custom head
+num_classes = len(np.unique(y_train))
+
+base_model = ResNet50(
+    weights='imagenet',
+    include_top=False,
+    input_tensor=Input(shape=(224,224,3))
+)
+
+# Đóng băng một số layer đầu
+for layer in base_model.layers[:-10]:
+    layer.trainable = False
+
+x = base_model.output
+x = GlobalAveragePooling2D()(x)
+x = Dropout(0.5)(x)
+outputs = Dense(num_classes, activation='softmax')(x)
+
+model = Model(inputs=base_model.input, outputs=outputs)
+
+model.compile(
+    optimizer=Adam(learning_rate=1e-4),
+    loss='sparse_categorical_crossentropy',
+    metrics=['accuracy']
+)
+
+model.summary()
+
+# 5. Huấn luyện
+history = model.fit(
+    X_train, y_train,
+    validation_split=0.1,
+    epochs=60,  # tăng epochs như trong ảnh
+    batch_size=16,
+    verbose=1
+)
+
+# 6. Đánh giá
+test_loss, test_acc = model.evaluate(X_test, y_test, verbose=1)
+print(f"Test loss: {test_loss:.4f}")
+print(f"Test accuracy: {test_acc:.4f}")
+
+# 7. Confusion Matrix
+y_pred = np.argmax(model.predict(X_test), axis=1)
+classes = np.unique(y_test)
+label_names = ['lung_aca','lung_n','lung_scc','unknown']  # chỉnh theo task thực tế
+
+cm = confusion_matrix(y_test, y_pred, labels=classes)
+disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=label_names)
+disp.plot(cmap='Blues', xticks_rotation=45)
+plt.title("Confusion Matrix - ResNet50")
+plt.tight_layout()
+plt.show()
+
+# 8. Vẽ biểu đồ Accuracy theo epoch (giống ảnh bạn đưa)
+plt.figure(figsize=(10,5))
+plt.plot(history.history['accuracy'], label='Training accuracy', color='red')
+plt.plot(history.history['val_accuracy'], label='Validation accuracy', color='blue')
+plt.title('Training and validation accuracy')
+plt.xlabel('Epoch')
+plt.ylabel('Accuracy')
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+plt.show()
