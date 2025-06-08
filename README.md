@@ -1,4 +1,4 @@
-# Đồ Án: Phân Loại Ảnh X-Quang Phổi Sử Dụng ResNet50 và Convolutional Neural Network
+# Đồ Án: Phân Loại Ảnh CT-Phổi Sử Dụng ResNet50 và Convolutional Neural Network
 # Giới thiệu
 ## Tên Đề Tài: Nghiên cứu và So sánh Hiệu năng của Mô hình ResNet50 và Convolutional Neural Network (CNN) Bài toán Phân loại Ảnh CT-Phổi
 ### Sinh Viên Thực Hiện: [LE HAI DANG] - [2100005686]
@@ -7,5 +7,5 @@
 #### **Đường dẫn tới mô hình Resnet50 **
   https://colab.research.google.com/drive/1PQgB6v1LbvRXet64gBYQfz_SdunPnV7g
 #### **Đường dẫn tới mô hình CNN **
- https://colab.research.google.com/drive/1EkYfJ1NVMIeVrQJh_VwRDjEVfV12qCMB
+https://colab.research.google.com/drive/1EkYfJ1NVMIeVrQJh_VwRDjEVfV12qCMB#scrollTo=sTfW3evtpgdU
   
