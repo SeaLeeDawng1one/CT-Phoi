@@ -1,6 +1,6 @@
 # Đồ Án: Phân Loại Ảnh CT-Phổi Sử Dụng ResNet50 và Convolutional Neural Network (CNN)
 # Giới thiệu
-## Tên Đề Tài: Nghiên cứu và So sánh Hiệu năng của Mô hình ResNet50 và Convolutional Neural Network (CNN) Bài toán Phân loại Ảnh CT-Phổi
+## Tên Đề Tài: Nghiên cứu và so sánh hiệu năng của mô hình ResNet50 và Convolutional Neural Network (CNN). Bài toán phân loại ảnh CT-Phổi
 ### Sinh Viên Thực Hiện: [LE HAI DANG] - [2100005686]
 - Mô Tả Ngắn: Đồ án này tập trung vào việc xây dựng, huấn luyện và đánh giá hai kiến trúc học sâu mạnh mẽ trên google colab về: ResNet50 (mạng nơ-ron tích chập) vàConvolutional Neural Network (CNN) cho nhiệm vụ phân loại ảnh CT- Phổi thành hai lớp: 'BÌNH THƯỜNG' (NORMAL) và 'VIÊM PHỔI' (PNEUMONIA). Mục tiêu là so sánh hiệu suất, ưu và nhược điểm của hai mô hình này và cách tiếp cận này trên cùng một bộ dữ liệu
 - Dữ Liệu: Sử dụng bộ dữ liệu Chest CT-Scan images Dataset đã được tiền xử lý, phân chia và lưu dưới dạng tệp NumPy tại Google Drive. Dữ liệu gốc có thể tham khảo từ https://www.kaggle.com/datasets/mohamedhanyyy/chest-ctscan-images và https://www.kaggle.com/datasets/adityamahimkar/iqothnccd-lung-cancer-dataset
