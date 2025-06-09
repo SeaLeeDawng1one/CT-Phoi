@@ -1,4 +1,4 @@
-# Đồ Án: Phân Loại Ảnh CT-Phổi Sử Dụng ResNet50 và Convolutional Neural Network
+# Đồ Án: Phân Loại Ảnh CT-Phổi Sử Dụng ResNet50 và Convolutional Neural Network (CNN)
 # Giới thiệu
 ## Tên Đề Tài: Nghiên cứu và So sánh Hiệu năng của Mô hình ResNet50 và Convolutional Neural Network (CNN) Bài toán Phân loại Ảnh CT-Phổi
 ### Sinh Viên Thực Hiện: [LE HAI DANG] - [2100005686]
